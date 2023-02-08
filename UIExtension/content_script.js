@@ -160,12 +160,15 @@ function contnet_script() {
       height: 75%; /* 100% Full-height */
       width: 0; /* 0 width - change this with JavaScript */
       position: fixed; /* Stay in place */
-      z-index: 1; /* Stay on top */
+      z-index: 99; /* Stay on top */
       top: 10%;
       background-color: #bcbcbc; /* background color of cases*/
       overflow-x: hidden; /* Disable horizontal scroll */
       padding-top: 60px; /* Place content 60px from the top */
       transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+      border-color: black;
+      border-width: thin;
+      border-style: solid;
       }
       
       /* The navigation menu links */
@@ -209,6 +212,9 @@ function contnet_script() {
       right: 0;
       }
       .testo-openNavButton {
+        position: fixed;
+        top: 10px;
+        right: 10px;
         height: 50px;
         line-height: 50px;  
         width: 50px;  
@@ -219,6 +225,7 @@ function contnet_script() {
         color: white;
         text-align: center;
         cursor: pointer;
+        z-index: 100;
       }
       `;
 
@@ -233,9 +240,9 @@ function contnet_script() {
                             <a href="#">ITEM 4</a>`;
 
       // Appending to body
-      document.body.appendChild(navbarOpenButton)
-      document.body.appendChild(navbarStyle);
-      document.body.appendChild(navbar);
+      document.body.prepend(navbarOpenButton);
+      document.body.prepend(navbarStyle);
+      document.body.prepend(navbar);
 
       
       // Navbar Event (close navbar when user clicks exit button)
