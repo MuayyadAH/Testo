@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Add a Note</title>
+  <style>
+    /* Add your CSS styles here */
+    
+    .highlighted {
+      background-color: yellow;
+      position: relative;
+    }
+    .note {
+      position: absolute;
+      top: -30px;
+      right: 0;
+      background-color: lightgray;
+      padding: 10px;
+      border-radius: 5px;
+    }
+    .blocked
+    {
+        position:relative;
+    }
+    .blocked:after
+    {
+        content: '';
+        position: absolute;
+        left:0;
+        right:0;
+        top:0;
+        bottom:0;
+        z-index:1;
+        background: transparent;
+    }
+  </style>
+</head>
+<body>
+  <button style="position: absolute; right: 500px;">Add a new</button>
+  <p style="font-size: 50px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam bibendum, ligula eu blandit aliquam, sapien libero faucibus libero, a blandit nisi nulla eu nisi. Sed varius nisi enim, non faucibus nulla suscipit id. </p>
+  <button id="add-note-button">Add a Note</button>
+
+  <div style="height: 3000px"></div>
+
+  <script>
+
+    let noteButton = document.getElementById('add-note-button');
+    let status = false;
+    noteButton.addEventListener('click', (evt) => {
+      console.log("box clicked");
+      noteAddingStyle();
+      if (!status) {
+        evt.stopPropagation();
+      }
+      status = !status
+      
+      document.addEventListener('click', noteRemovingStyle, {once:true});
+    });
+    
+
+function noteAddingStyle() {
+  document.getElementsByTagName('body')[0].style.opacity = '0.1';
+  document.getElementsByTagName('body')[0].style.backgroundColor = 'lightgray';
+  document.getElementsByTagName('body')[0].classList.add('blocked')
+  document.getElementsByTagName('body')[0].style.cursor = 'crosshair';
+}
+function noteRemovingStyle() {
+  let body = document.getElementsByTagName('body')[0];
+      body.style.backgroundColor = null;
+      body.style.opacity = null;
+      body.classList.remove('blocked')
+      body.style.cursor = null;   
+      status = false;  
+      addNote(event); 
+} 
+
+function addNote(event) {
+  let body = document.getElementsByTagName('body')[0];
+  // Create a new div to hold the note
+  var note = document.createElement("div");
+  note.style.position = "absolute";
+  note.style.left = event.pageX + "px";
+  note.style.top = event.pageY + "px";
+  note.style.backgroundColor = "yellow";
+  note.style.padding = "10px";
+  note.innerHTML = "Note: ";
+
+  body.appendChild(note);
+}
+
+
+// Call the getCursorPosition function when the page loads
+    /*
+function addSideNote() {
+  document.getElementsByTagName('body')[0].style.opacity = "0.2";
+  body.style.opacity = 0.2;
+  // Get the button element
+  var button = document.getElementById("add-note-button");
+
+  // Attach a click event to the button
+  button.addEventListener("click", function() {
+    // Get the user-selected area
+    var selection = window.getSelection();
+    var range = selection.getRangeAt(0);
+    var rect = range.getBoundingClientRect();
+
+    // Create a new div to hold the note
+    var note = document.createElement("div");
+    note.style.position = "fixed";
+    note.style.top = rect.top + "px";
+    note.style.left = (rect.left + rect.width) + "px";
+    note.style.backgroundColor = "yellow";
+    note.style.padding = "10px";
+    note.innerHTML = "Note: " + selection;
+
+    // Append the note to the page
+    document.body.appendChild(note);
+  });
+}
+
+// Call the addSideNote function when the page loads
+document.addEventListener("DOMContentLoaded", addSideNote);
+*/
+  </script>
+</body>
+</html>

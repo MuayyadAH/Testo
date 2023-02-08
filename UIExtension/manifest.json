@@ -1,0 +1,39 @@
+{
+    "manifest_version" : 3,
+    "name": "Testo",
+    "version": "1.0.0",
+    "description": "UX Analysis tool",
+    "icons": {
+        "16": "testo_icon_white_bg.png",
+        "48": "testo_icon_white_bg.png",
+        "128": "testo_icon_white_bg.png"
+    },
+    "web_accessible_resources": [
+        {
+            "resources": [
+            "testo_icon_white_bg.png",
+            "testo_icon_no_bg.png"
+            ],
+            "matches": ["<all_urls>"]
+        }
+    ],
+    "action": {
+        "default_title": "Default popup",
+        "default_popup": "popup.html"
+    },
+    "permissions": [
+        "storage",
+        "alarms",
+        "tabs",
+        "activeTab"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "content_scripts": [
+        {
+            "matches": ["<all_urls>"],
+            "js": ["content_script.js"]
+        }
+    ]
+}
