@@ -233,16 +233,29 @@ function contnet_script() {
       let navbar = document.createElement('div');
       navbar.setAttribute('id','testo-mySidenav');
       navbar.classList.add('testo-sidenav');
-      navbar.innerHTML += `<a id="testo-closeButton" href="javascript:void(0)" class="closebtn">&times;</a>
+      navbar.innerHTML += `
+      <a id="testo-closeButton" href="javascript:void(0)" class="closebtn">&times;</a>
                             <a href="#">ITEM 1</a>
                             <a href="#">ITEM 2</a>
                             <a href="#">ITEM 3</a>
-                            <a href="#">ITEM 4</a>`;
+                            <a href="#">ITEM 4</a>
+                            <input type="text" id="data" />
+                            <button onclick="sendData()">Send Data</button>`;
+
+
+      let testJs = document.createElement('script');
+      testJs.src = chrome.runtime.getURL('api.js');
+      testJs.onload = function () {
+        this.remove();
+      }
+      document.head.appendChild(testJs);
 
       // Appending to body
+      document.body.prepend(document.createAttribute('script').innerHTML = ``)
       document.body.prepend(navbarOpenButton);
       document.body.prepend(navbarStyle);
       document.body.prepend(navbar);
+
 
       
       // Navbar Event (close navbar when user clicks exit button)

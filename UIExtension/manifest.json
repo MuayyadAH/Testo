@@ -12,11 +12,12 @@
         {
             "resources": [
             "testo_icon_white_bg.png",
-            "testo_icon_no_bg.png"
-            ],
+            "testo_icon_no_bg.png",
+            "api.js"],
             "matches": ["<all_urls>"]
         }
     ],
+    "host_permissions": ["https://localhost:7221/*"],
     "action": {
         "default_title": "Default popup",
         "default_popup": "popup.html"

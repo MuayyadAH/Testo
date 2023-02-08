@@ -1,0 +1,53 @@
+﻿@model TestoDashboard.Models.CaseStudies
+
+@{
+    ViewData["Title"] = "CreateCaseStudy";
+}
+
+<h1>CreateCaseStudy</h1>
+
+<h4>CaseStudies</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" asp-controller="Dashboard" asp-action="CreateCaseStudy">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="CaseName" class="control-label"></label>
+                <input asp-for="CaseName" class="form-control" />
+                <span asp-validation-for="CaseName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CaseCreationDate" class="control-label"></label>
+                <input asp-for="CaseCreationDate" class="form-control" />
+                <span asp-validation-for="CaseCreationDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Questionnaires" class="control-label"></label>
+                <input asp-for="Questionnaires" class="form-control" />
+                <span asp-validation-for="Questionnaires" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TestCases" class="control-label"></label>
+                <input asp-for="TestCases" class="form-control" />
+                <span asp-validation-for="TestCases" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="isTestCaseDone" class="control-label"></label>
+                <input asp-for="isTestCaseDone" class="form-control" />
+                <span asp-validation-for="isTestCaseDone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
