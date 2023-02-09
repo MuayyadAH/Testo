@@ -514,6 +514,22 @@
           "build/netstandard2.0/_._": {}
         }
       },
+      "Microsoft.AspNetCore.Mvc.RazorPages/2.2.5": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Mvc.Razor": "2.2.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.AspNetCore.Mvc.RazorPages.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.AspNetCore.Mvc.RazorPages.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Microsoft.AspNetCore.Mvc.TagHelpers/2.2.0": {
         "type": "package",
         "dependencies": {
@@ -4936,6 +4952,19 @@
         "lib/netstandard2.0/Microsoft.AspNetCore.Mvc.Razor.Extensions.xml",
         "microsoft.aspnetcore.mvc.razor.extensions.2.2.0.nupkg.sha512",
         "microsoft.aspnetcore.mvc.razor.extensions.nuspec"
+      ]
+    },
+    "Microsoft.AspNetCore.Mvc.RazorPages/2.2.5": {
+      "sha512": "l0Lcx0lfCF7SJQiv+5Aib9/pdkP4sXwMsal+pdAUekHu4MJrZB80r+LGvHyaJF8Z7ROMnjQ0oDVCccdneqXX8Q==",
+      "type": "package",
+      "path": "microsoft.aspnetcore.mvc.razorpages/2.2.5",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard2.0/Microsoft.AspNetCore.Mvc.RazorPages.dll",
+        "lib/netstandard2.0/Microsoft.AspNetCore.Mvc.RazorPages.xml",
+        "microsoft.aspnetcore.mvc.razorpages.2.2.5.nupkg.sha512",
+        "microsoft.aspnetcore.mvc.razorpages.nuspec"
       ]
     },
     "Microsoft.AspNetCore.Mvc.TagHelpers/2.2.0": {
@@ -12114,6 +12143,7 @@
   },
   "projectFileDependencyGroups": {
     "net6.0": [
+      "Microsoft.AspNetCore.Mvc.RazorPages >= 2.2.5",
       "Microsoft.AspNetCore.Mvc.TagHelpers >= 2.2.0",
       "Microsoft.AspNetCore.Razor >= 2.2.0",
       "Microsoft.AspNetCore.Razor.Runtime >= 2.2.0",
@@ -12130,9 +12160,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\kaka-\\Desktop\\TestoV2\\Testo\\TestoDashboard\\TestoDashboard.csproj",
-      "projectName": "TestoDashboard",
-      "projectPath": "C:\\Users\\kaka-\\Desktop\\TestoV2\\Testo\\TestoDashboard\\TestoDashboard.csproj",
+      "projectUniqueName": "C:\\Users\\kaka-\\Desktop\\TestoV2\\Testo\\TestoDashboard\\TestoAPI.csproj",
+      "projectName": "TestoAPI",
+      "projectPath": "C:\\Users\\kaka-\\Desktop\\TestoV2\\Testo\\TestoDashboard\\TestoAPI.csproj",
       "packagesPath": "C:\\Users\\kaka-\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\kaka-\\Desktop\\TestoV2\\Testo\\TestoDashboard\\obj\\",
       "projectStyle": "PackageReference",
@@ -12163,6 +12193,10 @@
       "net6.0": {
         "targetAlias": "net6.0",
         "dependencies": {
+          "Microsoft.AspNetCore.Mvc.RazorPages": {
+            "target": "Package",
+            "version": "[2.2.5, )"
+          },
           "Microsoft.AspNetCore.Mvc.TagHelpers": {
             "target": "Package",
             "version": "[2.2.0, )"

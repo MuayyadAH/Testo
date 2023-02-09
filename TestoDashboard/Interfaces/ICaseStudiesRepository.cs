@@ -1,4 +1,4 @@
-﻿using TestoDashboard.Models;
+﻿using TestoAPI.Models;
 
 namespace TestoAPI.Interfaces
 {
@@ -7,7 +7,6 @@ namespace TestoAPI.Interfaces
         ICollection<CaseStudies> GetAllCaseStudies();
         CaseStudies GetByCaseId(int caseId);
         bool Save();
-
         bool Add(CaseStudies caseStudy);
 
     }

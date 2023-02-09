@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v6.0": {
       "TestoDashboard/1.0.0": {
         "dependencies": {
+          "Microsoft.AspNetCore.Mvc.RazorPages": "2.2.5",
           "Microsoft.AspNetCore.Mvc.TagHelpers": "2.2.0",
           "Microsoft.AspNetCore.Razor": "2.2.0",
           "Microsoft.AspNetCore.Razor.Runtime": "2.2.0",
@@ -257,6 +258,11 @@
             "assemblyVersion": "2.2.0.0",
             "fileVersion": "2.2.0.18316"
           }
+        }
+      },
+      "Microsoft.AspNetCore.Mvc.RazorPages/2.2.5": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Mvc.Razor": "2.2.0"
         }
       },
       "Microsoft.AspNetCore.Mvc.TagHelpers/2.2.0": {
@@ -2969,6 +2975,13 @@
       "sha512": "sha512-Sei/0moqBDQKaAYT9PtOeRtvYgHQQLyw/jm3exHw2w9VdzejiMEqCQrN2d63Dk4y7IY0Irr/P9JUFkoVURRcNw==",
       "path": "microsoft.aspnetcore.mvc.razor.extensions/2.2.0",
       "hashPath": "microsoft.aspnetcore.mvc.razor.extensions.2.2.0.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Mvc.RazorPages/2.2.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-l0Lcx0lfCF7SJQiv+5Aib9/pdkP4sXwMsal+pdAUekHu4MJrZB80r+LGvHyaJF8Z7ROMnjQ0oDVCccdneqXX8Q==",
+      "path": "microsoft.aspnetcore.mvc.razorpages/2.2.5",
+      "hashPath": "microsoft.aspnetcore.mvc.razorpages.2.2.5.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Mvc.TagHelpers/2.2.0": {
       "type": "package",

@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TestoDashboard.Models;
+using TestoAPI.Models;
 
 namespace TestoAPI.Data
 {
@@ -10,8 +10,8 @@ namespace TestoAPI.Data
         }
 
         public DbSet<CaseStudies> CaseStudies { get; set; }
-        public DbSet<TestResults> Results { get; set; }
-
+        public DbSet<TestResults> TestResults { get; set; }
+        public DbSet<TestCases> TestsCases { get; set; }
 
     }
 }

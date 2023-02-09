@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TestoAPI.Data;
 using TestoAPI.Interfaces;
-using TestoDashboard.Models;
+using TestoAPI.Models;
 
 namespace TestoAPI.Repository
 {
@@ -14,6 +14,7 @@ namespace TestoAPI.Repository
             _context = context;
         }
 
+
         public bool Add(CaseStudies caseStudy)
         {
             _context.Add(caseStudy);
@@ -22,12 +23,13 @@ namespace TestoAPI.Repository
 
         public ICollection<CaseStudies> GetAllCaseStudies()
         {
-            return _context.CaseStudies.OrderBy(p => p.CaseStudyId).ToList();
+            //return _context.CaseStudies.FromSql($"SELECT * from dbo.CaseStudies WHERE ISJSON(TestCases) = 1").ToList();
+            return _context.CaseStudies.OrderBy(p => p.CaseStudyId).ToArray();
         }
 
         public CaseStudies GetByCaseId(int caseId)
         {
-            throw new NotImplementedException();
+            return _context.CaseStudies.FirstOrDefault(i => i.CaseStudyId == caseId);
         }
 
         public async Task<CaseStudies> GetByCaseIdAsync(int caseId)

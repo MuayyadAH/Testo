@@ -22,7 +22,7 @@ namespace TestoAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("TestoDashboard.Models.CaseStudies", b =>
+            modelBuilder.Entity("TestoAPI.Models.CaseStudies", b =>
                 {
                     b.Property<int>("CaseStudyId")
                         .ValueGeneratedOnAdd()
@@ -36,13 +36,13 @@ namespace TestoAPI.Migrations
                     b.Property<string>("CaseName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("GuideLines")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Questionnaires")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TestCases")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("isTestCaseDone")
+                    b.Property<string>("StartingPoint")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CaseStudyId");
@@ -50,7 +50,34 @@ namespace TestoAPI.Migrations
                     b.ToTable("CaseStudies");
                 });
 
-            modelBuilder.Entity("TestoDashboard.Models.TestResults", b =>
+            modelBuilder.Entity("TestoAPI.Models.TestCases", b =>
+                {
+                    b.Property<int>("TestCaseNumber")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TestCaseNumber"));
+
+                    b.Property<int?>("CaseStudyId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TestCaseLink")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TestCaseName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("isTestCaseDone")
+                        .HasColumnType("bit");
+
+                    b.HasKey("TestCaseNumber");
+
+                    b.HasIndex("CaseStudyId");
+
+                    b.ToTable("TestsCases");
+                });
+
+            modelBuilder.Entity("TestoAPI.Models.TestResults", b =>
                 {
                     b.Property<int>("ResultId")
                         .ValueGeneratedOnAdd()
@@ -86,12 +113,21 @@ namespace TestoAPI.Migrations
 
                     b.HasIndex("CaseStudyId");
 
-                    b.ToTable("Results");
+                    b.ToTable("TestResults");
                 });
 
-            modelBuilder.Entity("TestoDashboard.Models.TestResults", b =>
+            modelBuilder.Entity("TestoAPI.Models.TestCases", b =>
                 {
-                    b.HasOne("TestoDashboard.Models.CaseStudies", "CaseStudy")
+                    b.HasOne("TestoAPI.Models.CaseStudies", "CaseStudy")
+                        .WithMany()
+                        .HasForeignKey("CaseStudyId");
+
+                    b.Navigation("CaseStudy");
+                });
+
+            modelBuilder.Entity("TestoAPI.Models.TestResults", b =>
+                {
+                    b.HasOne("TestoAPI.Models.CaseStudies", "CaseStudy")
                         .WithMany()
                         .HasForeignKey("CaseStudyId")
                         .OnDelete(DeleteBehavior.Cascade)

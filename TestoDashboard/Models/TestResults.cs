@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace TestoDashboard.Models
+namespace TestoAPI.Models
 {
     public class TestResults
     {
@@ -15,10 +15,5 @@ namespace TestoDashboard.Models
         public int? UserClicks { get; set; }
         public float? TaskSucessRate { get; set; }
         public string? ScrollDepthRate { get; set; }
-        [ForeignKey("CaseStudies")]
-        public int CaseStudyId { get; set; }
-        public CaseStudies? CaseStudy { get; set; }
-
-
     }
 }
