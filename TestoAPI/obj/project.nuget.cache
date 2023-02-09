@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "siabN6fSR9ny0FFCioH0y0r9N6SQOY/qq1Idjlk3U0eh1sXzlMl80Xb9Hikz0A7RJg6JYoOLiUmyvkN3Ur8Qyw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\kaka-\\Desktop\\TestoV2\\Testo\\TestoAPI\\TestoAPI.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\kaka-\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
+    "C:\\Users\\kaka-\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\kaka-\\.nuget\\packages\\swashbuckle.aspnetcore\\6.2.3\\swashbuckle.aspnetcore.6.2.3.nupkg.sha512",
+    "C:\\Users\\kaka-\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.2.3\\swashbuckle.aspnetcore.swagger.6.2.3.nupkg.sha512",
+    "C:\\Users\\kaka-\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.2.3\\swashbuckle.aspnetcore.swaggergen.6.2.3.nupkg.sha512",
+    "C:\\Users\\kaka-\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.2.3\\swashbuckle.aspnetcore.swaggerui.6.2.3.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -149,6 +149,7 @@ function contnet_script() {
       navbarOpenButton.classList.add('testo-openNavButton');
       // navbarOpenButton.innerHTML = `<img src="test_icon_no_bg.png"></img>`
       navbarOpenButton.innerHTML += `<img src="${chrome.runtime.getURL('testo_icon_no_bg.png')}" style="height: 28px; width: 28px; margin-top: 20%;"/>`;
+      navbarOpenButton.setAttribute('onclick','showFetchedData()');
       navbarOpenButton.addEventListener('click', () => {
         document.getElementById("testo-mySidenav").style.width = "330px";
       });
@@ -164,7 +165,7 @@ function contnet_script() {
       top: 10%;
       background-color: #bcbcbc; /* background color of cases*/
       overflow-x: hidden; /* Disable horizontal scroll */
-      padding-top: 60px; /* Place content 60px from the top */
+      padding-top: 20px; /* Place content 60px from the top */
       transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
       border-color: black;
       border-width: thin;
@@ -234,6 +235,7 @@ function contnet_script() {
       navbar.setAttribute('id','testo-mySidenav');
       navbar.classList.add('testo-sidenav');
       navbar.innerHTML += `
+      <div id="showFetchedData" style="text-align: center;"></div>
       <a id="testo-closeButton" href="javascript:void(0)" class="closebtn">&times;</a>
                             <a href="#">ITEM 1</a>
                             <a href="#">ITEM 2</a>
@@ -255,8 +257,6 @@ function contnet_script() {
       document.body.prepend(navbarOpenButton);
       document.body.prepend(navbarStyle);
       document.body.prepend(navbar);
-
-
       
       // Navbar Event (close navbar when user clicks exit button)
       let navbarCloseButton = document.getElementById('testo-closeButton');
@@ -266,3 +266,25 @@ function contnet_script() {
 
 
 }
+
+
+/* let mo = fetch('https://localhost:7221/api/CaseStudies').then(response => {
+    return response.json();
+    }).then(data => {
+    // Work with JSON data here
+        guideLines += data.guideLines;
+        return guideLines;
+    }).catch(err => {
+    // Do something for an error here
+    });
+
+console.log(mo); */
+
+/* async function fetchGuideLines() {
+    let obj;
+    const res = await fetch('https://localhost:7221/api/CaseStudies')
+    obj = await res.json();
+    return obj;
+  } 
+  
+console.log(fetchGuideLines())*/

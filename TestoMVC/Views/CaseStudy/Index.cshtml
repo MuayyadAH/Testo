@@ -1,0 +1,55 @@
+﻿@model IEnumerable<TestoMVC.Models.CaseStudies>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Show the case study to the end user</h1>
+
+@*
+<p>
+    <a asp-action="Edit">Edit the Case Study</a>
+</p>
+*@
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CaseName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GuideLines)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartingPoint)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Questionnaires)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CaseName)
+            </td>
+            <td>
+                @Html.Raw(item.GuideLines)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartingPoint)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Questionnaires)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.CaseStudyId">Edit</a> @* |
+                <a asp-action="Details" asp-route-id="@item.CaseStudyId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.CaseStudyId">Delete</a> *@
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
