@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using TestoAPI.Interfaces;
+using TestoAPI.Models;
+using TestoAPI.ParaModel;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -10,6 +13,12 @@ namespace TestoAPI.Controllers
     [EnableCors("AllowAll")]
     public class TestResultsController : ControllerBase
     {
+        private readonly ITestResultsRepository _testResultsRepository;
+
+        public TestResultsController(ITestResultsRepository testResultsRepository)
+        {
+            _testResultsRepository = testResultsRepository;
+        }
         // GET: api/<TestResultsController>
         [HttpGet]
         public IEnumerable<string> Get()
@@ -25,9 +34,24 @@ namespace TestoAPI.Controllers
         }
 
         // POST api/<TestResultsController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpPost("Send")]
+        /*
+        public void Post([FromBody] int timeElapsed, [FromBody] int averageTimeOnTask, [FromBody] string[] visitedSites,
+                         [FromBody] int errors, [FromBody] int userClicks, [FromBody] float taskSuccess, [FromBody] float scrollDepth) */
+        public IActionResult Post([FromBody] AcceptTestResult recievedTestResult)
         {
+            TestResults testResult = new TestResults()
+            {
+                TimeElapsed = recievedTestResult.TimeElapsed,
+                AverageTimeOnTask = recievedTestResult.AverageTimeOnTask,
+                VisitedSites = string.Join(",", recievedTestResult.VisitedSites),
+                Errors = recievedTestResult.Errors,
+                UserClicks = recievedTestResult.UserClicks,
+                TaskSucessRate = recievedTestResult.TaskSucessRate,
+                ScrollDepthRate = recievedTestResult.ScrollDepthRate
+            };
+            _testResultsRepository.Add(testResult);
+            return Ok();
         }
 
         // PUT api/<TestResultsController>/5

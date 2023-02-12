@@ -19,14 +19,24 @@ async function sendData() {
         navbar.innerText = 'TEST';
 }); */
 
-async function fetchData() {
+
+/* START -- FOR SHOWING TASKS IN NAVBAR */
+async function fetchCaseStudy() {
     const response = await fetch('https://localhost:7221/api/CaseStudies');
     const data = await response.json();
     return data;
 }
 
+async function fetchTasks() {
+    const response = await fetch('https://localhost:7221/api/TestCases/Tasks');
+    const data = await response.json();
+    return data;
+}
+
 async function showFetchedData() {
-    const data = await fetchData();
+    const caseStudy = await fetchCaseStudy();
+    const tasks = await fetchTasks();
+
     let theDiv = document.getElementById('showFetchedData');
     
     let dataStyle = document.createElement('style');
@@ -37,9 +47,17 @@ async function showFetchedData() {
                                 accent-color:#17A2B8;
                             }`
     theDiv.prepend(dataStyle)
-    
+    console.log(caseStudy.startingPoint);
     // show data
-    theDiv.innerHTML = `<h3>Test cases for: <strong>${data.caseName}</strong></h3>
-                        <div>${data.guideLines}</div>
-                        <p>Starting point from this <a href="${data.startingPoint}" target="_blank>link</a>.</p>`;
+    theDiv.innerHTML = `<h3>Test cases for: <strong>${caseStudy.caseName}</strong></h3>
+                        <div>${caseStudy.guideLines}</div>
+                        <p>Starting point from this <a target="_blank" style="display: inline;" href="${caseStudy.startingPoint}">link</a>
+                        </p>`;
+
+    theDiv.innerHTML += `<ul style="text-align: left;">`
+    for (let i=0; i<tasks.length; i++) {
+        theDiv.innerHTML += `<li>${tasks[i]}</li>`
+    }
+    theDiv.innerHTML += `</ul>`
   }
+/* END -- FOR SHOWING TASKS IN NAVBAR */

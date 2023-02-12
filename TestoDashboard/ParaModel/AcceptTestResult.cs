@@ -1,13 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace TestoAPI.Models
+﻿namespace TestoAPI.ParaModel
 {
-    public class TestResults
+    public class AcceptTestResult
     {
-        [Key]
-        public int ResultId { get; set; }
         public int? TimeElapsed { get; set; }
         public float? AverageTimeOnTask { get; set; }
         public string? VisitedSites { get; set; }

@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<ICaseStudiesRepository, CaseStudiesRepository>();
 builder.Services.AddScoped<ITestCasesRepository, TestCasesRepository>();
-// builder.Services.AddScoped<ITestResultsRepository, TestResultsRepository>();
+builder.Services.AddScoped<ITestResultsRepository, TestResultsRepository>();
 builder.Services.AddDbContext<dbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));

@@ -1,17 +1,200 @@
+/* START - FOR AJAX RELOAD */
+let lastUrl = location.href; 
+new MutationObserver(() => {
+  const url = location.href;
+  if (url !== lastUrl) {
+    lastUrl = url;
+    onUrlChange();
+  }
+}).observe(document, {subtree: true, childList: true});
+
+function onUrlChange() {
+  console.log('URL changed!', location.href);
+  contnet_script();
+}
+/* END - FOR AJAX RELOAD */
+
+
+/* NORMAL PAGE RELOAD */
 if(document.readyState !== 'complete') {
     window.addEventListener('load',contnet_script);
+    document.addEventListener("DOMContentLoaded", contnet_script);
 } else {
-    contnet_script();
+    // contnet_script();
+}
+
+
+// FOR RESET
+/* chrome.storage.local.set({
+    "recordStatus": false,
+    "taskSuccess": 0,
+    "Errors": 0,
+    "taskUrls": null,
+    "taskUrlsNoChange": null,
+    "userClicks": 0,
+    "scrollDepth": 0
+});
+
+chrome.storage.local.get(["lastUsedTimer","taskUrls","savedUrls","Errors","taskSuccess","userClicks","scrollDepth"], (res) => {
+    console.log("Time Elapsed: "+res.lastUsedTimer);
+    console.log(`Average Time Elapsed (per Task): ${res.lastUsedTimer/res.savedUrls.length}`)
+    console.log("Saved URLS from user browsing: "+ res.savedUrls);
+    console.log("Errors: "+res.Errors);
+    console.log("Task Success: "+res.taskSuccess);
+    console.log("User Clicks: "+res.userClicks);
+    console.log("Average Scroll Depth: "+ (res.scrollDepth/res.savedUrls.length)+"px");
+}); */
+
+// Task time
+let startTime = new Date();
+/* window.addEventListener('load', () =>{
+    chrome.storage.local.get(["timePerTask","savedUrls"], (res) =>{
+        console.log(res.timePerTask ?? 0);
+    })
+    const startTime = new Date();
+    chrome.storage.local.get(["recordStatus", "taskUrls","taskUrlsNoChange","savedUrls"], (res) => {
+        let savedUrls = res.savedUrls ?? [];
+        console.log(`Recording status: ${res.recordStatus}`);
+        if (res.recordStatus === true) {
+            window.addEventListener('beforeunload', () => {
+                /*
+                for (let i=0; i<res.taskUrls.length; i++) {
+                    console.log(res.taskUrls[i] === location.href)
+                    if (res.taskUrls[i] === location.href) {
+                        savedUrls.push({
+                            baseUrl: location.host,
+                            fullUrl: location.href,
+                            timeElapsed: secondsSinceEnter(startTime)
+                        });
+                        chrome.storage.local.set({
+                            savedUrls: savedUrls
+                        });
+                        break;
+                    }
+                }
+                chrome.storage.local.set({
+                    timePerTask: secondsSinceEnter(startTime)
+                });
+            })
+        }
+    });
+    
+});  */
+function secondsSinceEnter(startTime)
+{
+    return Math.floor((new Date() - startTime) / 1000);
 }
 
 function contnet_script() {
+
     chrome.storage.local.get(["recordStatus", "selectedElements","savedUrls"], (res) => {
         const recordStatus = res.recordStatus;
-        const test = res.savedUrls ?? [];
+        const savedUrls = res.savedUrls ?? [];
         let selectedElementsArray = res.selectedElements ?? [];
-        console.log(test);
-    
-        if (recordStatus === true) {
+        console.log("Saved Links After testing:");
+        console.log(savedUrls);
+
+        fetch('https://localhost:7221/api/TestCases/Tasks')
+        .then((response) => response.json())
+        .then((data) => {
+            console.log("Tasks:");
+            console.log(data);
+        });
+
+
+        // Task Success AND Errors
+        fetch('https://localhost:7221/api/TestCases/Links')
+        .then((response) => response.json())
+        .then((data) => {
+            chrome.storage.local.set({
+                taskUrlsNoChange: data
+            });
+            chrome.storage.local.get(["timePerTask","taskUrls","savedUrls","Errors", "taskSuccess","taskUrlsNoChange"], (res) => {
+                console.log("Task Links:");
+                console.log(res.taskUrlsNoChange);
+                console.log("Remaining Tasks Links:");
+                console.log(res.taskUrls);
+                if (recordStatus === true) {
+                    let taskUrls = res.taskUrls ?? data;
+                    let urls = res.savedUrls ?? [];
+                    let taskSuccess = res.taskSuccess ?? 0;
+                    let errors = res.Errors ?? 0;
+
+                    if (taskUrls.includes(location.href)) {
+                        if (taskSuccess < data.length) {
+                            taskSuccess++;
+                            console.log("Task Success: "+taskSuccess);
+                        }
+                        console.log(taskUrls);
+                        for (let i=0; i<taskUrls.length; i++) {
+                            if (taskUrls[i] === location.href) {
+                                taskUrls.splice(i, 1);
+                            }
+                        }
+                        chrome.storage.local.set({
+                            "taskSuccess": taskSuccess,
+                            "taskUrls": taskUrls,
+                        });
+                        window.addEventListener('beforeunload', () => {
+                            urls.push({
+                                baseUrl: location.host,
+                                fullUrl: location.href,
+                                timePerTask: secondsSinceEnter(startTime)
+                            });
+                            chrome.storage.local.set({
+                                "savedUrls": urls
+                            });
+                        })
+                    }
+                    else {
+                        errors++;
+                        console.log("Errors: "+errors);
+                        chrome.storage.local.set({
+                            "Errors": errors
+                        });
+                    }
+                }
+
+            })
+        });
+        
+        // User Clicks
+        chrome.storage.local.get(["recordStatus","userClicks"], (res) => {
+            const recordStatus = res.recordStatus;
+            let userClicks = res.userClicks ?? 0;
+            if (recordStatus === true) {
+                document.addEventListener('click', () => {
+                    userClicks++;                    
+                    chrome.storage.local.set({
+                        "userClicks": userClicks
+                    });
+                })
+            }
+        });
+
+
+
+        // Scroll Depth
+        let maxScrollDepth = 0;
+        window.addEventListener("scroll", function() {
+            maxScrollDepth = Math.max(maxScrollDepth, window.pageYOffset + window.innerHeight);
+            console.log("Max Scroll Depth: ", maxScrollDepth);
+        });
+        window.addEventListener('beforeunload', () => {
+            chrome.storage.local.get(["recordStatus","scrollDepth"], (res) => {
+                const recordStatus = res.recordStatus;
+                let scrollDepth = res.scrollDepth ?? 0;
+                if (recordStatus === true) {
+                    scrollDepth += maxScrollDepth
+                    chrome.storage.local.set({
+                        "scrollDepth": scrollDepth
+                    });
+                }
+            });
+        });
+
+
+        /* if (recordStatus === true) {
             chrome.storage.local.get(["savedUrls"], (res) => {
                 let urls = res.savedUrls ?? [];
                 console.log(urls);
@@ -32,7 +215,7 @@ function contnet_script() {
         }
         else {
             addNoteInit();
-        }
+        } */
     
     })
     
@@ -142,7 +325,7 @@ function contnet_script() {
       // END -- Adding notes functions
 
 
-      /* START -- VIEW TEST CASE INSIDE THE PAGES */
+      /* START -- VIEW TEST CASE INSIDE THE PAGES (API.JS INCLUDED) */
 
       // Navbar open button
       let navbarOpenButton = document.createElement('div');
@@ -174,7 +357,7 @@ function contnet_script() {
       
       /* The navigation menu links */
       .testo-sidenav a {
-      padding: 8px 8px 8px 32px;
+      /* padding: 8px 8px 8px 32px; */
       text-decoration: none;
       font-size: 25px;
       color: #818181;
@@ -235,14 +418,14 @@ function contnet_script() {
       navbar.setAttribute('id','testo-mySidenav');
       navbar.classList.add('testo-sidenav');
       navbar.innerHTML += `
-      <div id="showFetchedData" style="text-align: center;"></div>
-      <a id="testo-closeButton" href="javascript:void(0)" class="closebtn">&times;</a>
-                            <a href="#">ITEM 1</a>
+      <div id="showFetchedData" style="margin-left: 20px;"></div>
+      <a id="testo-closeButton" href="javascript:void(0)" class="closebtn">&times;</a>`
+                            /* <a href="#">ITEM 1</a>
                             <a href="#">ITEM 2</a>
                             <a href="#">ITEM 3</a>
                             <a href="#">ITEM 4</a>
                             <input type="text" id="data" />
-                            <button onclick="sendData()">Send Data</button>`;
+                            <button onclick="sendData()">Send Data</button>`; */
 
 
       let testJs = document.createElement('script');
@@ -264,8 +447,9 @@ function contnet_script() {
         document.getElementById("testo-mySidenav").style.width = "0";
       });
 
-
+      // IMPORTANT NOTE: SHOWING CONTENT INSIDE NAVBAR IS THROUGH (API.JS) 
 }
+
 
 
 /* let mo = fetch('https://localhost:7221/api/CaseStudies').then(response => {

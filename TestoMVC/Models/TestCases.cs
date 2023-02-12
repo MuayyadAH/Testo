@@ -7,9 +7,9 @@ namespace TestoMVC.Models
     {
         [Key]
         public int TestCaseNumber { get; set; }
-        [Display(Name = "Test case Content")]
+        [Display(Name = "Task description")]
         public string? TestCaseName { get; set; }
-        [Display(Name = "Test case scoped website link")]
+        [Display(Name = "Task relevant website link")]
         public string? TestCaseLink { get; set; }
         public bool? isTestCaseDone { get; set; }
     }

@@ -1,0 +1,89 @@
+﻿@using System.Text.Json
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@using TestoMVC.ViewModels
+@model IEnumerable<TestoMVC.Models.TestResults>
+
+@{
+    ViewData["Title"] = "Test Results";
+}
+
+<h1>Test Results</h1>
+
+<div class="float-end">
+    <a asp-action="DeleteAll" class="btn btn-danger">Delete all results</a>
+    <a asp-action="ExportAll" class="btn btn-success">Download all as CSV</a>
+</div>
+@*<p>
+    <a asp-action="Create">Create New</a>
+</p>*@
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TimeElapsed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AverageTimeOnTask)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VisitedSites)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Errors)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserClicks)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TaskSucessRate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ScrollDepthRate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TimeElapsed)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AverageTimeOnTask)
+                </td>
+                <td>
+                    @{
+                        var json = item.VisitedSites;
+                        List<JsonVisitedSites> savedSites = JsonConvert.DeserializeObject<List<JsonVisitedSites>>(json);
+                        for (int i=1; i<savedSites.Count()+1; i++) {
+                                <li> Task @i : <a href="@savedSites[i-1].fullUrl">@savedSites[i-1].baseUrl</a> - Time on Task: @savedSites[i-1].timePerTask</li>
+                            }
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Errors)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserClicks)
+                    </td>
+                    <td>
+                        @{
+                        var taskSuccess = item.TaskSucessRate * 100;
+                        }
+                        @taskSuccess%
+                    </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ScrollDepthRate)
+                </td>
+                <td>
+                    @* <a asp-action="Edit" asp-route-id="@item.ResultId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ResultId">Details</a> |*@
+                    <a asp-action="Delete" asp-route-id="@item.ResultId">Delete</a> |
+                    <a asp-action="Export" asp-route-id="@item.ResultId">Download as CSV</a>
+                </td>
+            </tr>
+}
+        </tbody>
+    </table>

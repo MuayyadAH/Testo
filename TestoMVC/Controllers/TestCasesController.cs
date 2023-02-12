@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TestoMVC.Data;
 using TestoMVC.Interfaces;
 using TestoMVC.Models;
+using TestoMVC.Repository;
 
 namespace TestoMVC.Controllers
 {
@@ -37,6 +37,42 @@ namespace TestoMVC.Controllers
                 };
                 _testCasesRepository.Add(newTestCase);
             }
+            return RedirectToAction("Index", "TestCases");
+        }
+
+        
+        public async Task<IActionResult> DeleteTask(int id)
+        {
+            TestCases testCase = await _testCasesRepository.GetByIdAsync(id);
+            return View(testCase);
+        }
+
+        [HttpPost, ActionName("DeleteTask")]
+        public async Task<IActionResult> confirmDeleteTask(int id)
+        {
+            TestCases testCase = await _testCasesRepository.GetByIdAsync(id);
+            if (testCase != null)
+            {
+                _testCasesRepository.Delete(testCase);
+            }
+            return RedirectToAction("Index","TestCases");
+        }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            TestCases testCase = await _testCasesRepository.GetByIdAsync(id);
+            return View(testCase);
+        }
+
+        [HttpPost, ActionName("Edit")]
+        public async Task<IActionResult> Edit(TestCases testCase)
+        {
+            TestCases editedTestCase = await _testCasesRepository.GetByIdAsync(testCase.TestCaseNumber);
+            editedTestCase.TestCaseName = testCase.TestCaseName;
+            editedTestCase.TestCaseLink = testCase.TestCaseLink;
+            editedTestCase.isTestCaseDone = testCase.isTestCaseDone;
+
+            _testCasesRepository.Update(editedTestCase);
             return RedirectToAction("Index", "TestCases");
         }
     }

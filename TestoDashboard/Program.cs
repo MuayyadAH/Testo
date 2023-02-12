@@ -9,10 +9,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddScoped<ICaseStudiesRepository, CaseStudiesRepository>();
+builder.Services.AddScoped<ITestCasesRepository, TestCasesRepository>();
+builder.Services.AddScoped<ITestResultsRepository, TestResultsRepository>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllersWithViews();
-builder.Services.AddScoped<ICaseStudiesRepository, CaseStudiesRepository>();
 
 builder.Services.AddCors(options =>
 {

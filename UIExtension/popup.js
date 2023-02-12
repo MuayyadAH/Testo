@@ -9,6 +9,7 @@ let cbImages = document.getElementById('checkbox-img');
 let cbButtons = document.getElementById('checkbox-button');
 let cbVideos = document.getElementById('checkbox-video');
 
+
 function checkSelectedElements() {
     let getAllSelectedElements = document.querySelectorAll('input[name="element-selection"]');
     let selectedElementsArray = [];
@@ -25,7 +26,7 @@ function checkSelectedElements() {
 }
 
 recordButton.addEventListener("click", () => {
-    chrome.storage.local.get(["recordStatus", "timer","lastUsedTimer", "selectedElements","testCases"], (res) => {
+    chrome.storage.local.get(["recordStatus","taskUrlsNoChange", "timer","lastUsedTimer", "selectedElements","testCases"], (res) => {
         const status = res.recordStatus ?? false;
         const timer = res.timer ?? 0;
         const lastTimer = res.lastUsedTimer ?? 0;
@@ -36,7 +37,13 @@ recordButton.addEventListener("click", () => {
                 timer: 0,
                 selectedElements: checkSelectedElements(),
                 savedUrls: [],
-                testCases: []
+                testCases: [],
+                Errors: 0,
+                userClicks: 0,
+                scrollDepth: 0,
+                taskSuccess: 0,
+                taskUrls: res.taskUrlsNoChange,
+                taskUrlsNoChange: null
             });
             console.log("status set to true: popup.js")
             recMessage.textContent = 'Recording in progress!';
@@ -61,7 +68,7 @@ function updateTimer() {
         const time = res.timer ?? 0;
         if (status === true) {
             recMessage.textContent = 'Recording in progress!';
-            elementsBox.style.visibility = 'hidden';
+            // elementsBox.style.visibility = 'hidden';
             recordButton.classList.remove('notRec');
             recordButton.classList.add('Rec');
             displayTimer.textContent = `${new Date(time * 1000).toISOString().substring(14, 19)
@@ -73,7 +80,7 @@ function updateTimer() {
         }
         else {
             displayTimer.textContent = 'TIMER';
-            elementsBox.style.visibility = 'visible';
+            // elementsBox.style.visibility = 'visible';
             recordButton.classList.remove('Rec');
             recordButton.classList.add('notRec');
         }
@@ -82,8 +89,54 @@ function updateTimer() {
 
 
 reportButton.addEventListener("click", () => {
-    let x = chrome.runtime.getURL("report.html");
-    window.open(x)
+    chrome.storage.local.get(["lastUsedTimer","taskUrlsNoChange","taskUrls","savedUrls","Errors","taskSuccess","userClicks","scrollDepth"], (res) => {
+        console.log(res.taskUrlsNoChange);
+        const data = {
+            timeElapsed: res.lastUsedTimer,
+            averageTimeOnTask: (res.lastUsedTimer/res.taskUrlsNoChange.length),
+            visitedSites: JSON.stringify(res.savedUrls),
+            errors: res.Errors,
+            userClicks: res.userClicks,
+            taskSucessRate: (res.taskSuccess/res.taskUrlsNoChange.length),
+            scrollDepthRate: res.scrollDepth/res.savedUrls.length
+          };
+          // Send data to database
+          fetch('https://localhost:7221/api/TestResults/Send', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+            })  .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then(data => {
+            console.log(data);
+          })
+          .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+          });
+                
+        
+        
+    });
+    
+    chrome.storage.local.get(["lastUsedTimer","taskUrlsNoChange","taskUrls","savedUrls","Errors","taskSuccess","userClicks","scrollDepth"], (res) => {
+        console.log("Time Elapsed: "+res.lastUsedTimer);
+        console.log(`Average Time Elapsed (per Task): ${res.lastUsedTimer/res.savedUrls.length}`)
+        console.log(res.savedUrls);
+        console.log(res.taskUrlsNoChange);
+        console.log(res.taskUrls);
+        console.log("Errors: "+res.Errors);
+        console.log("Task Success: "+res.taskSuccess);
+        console.log("User Clicks: "+res.userClicks);
+        console.log("Average Scroll Depth: "+ (res.scrollDepth/res.savedUrls.length)+"px");
+    });
+    /* let x = chrome.runtime.getURL("report.html");
+    window.open(x) */
 })
 
 

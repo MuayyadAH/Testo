@@ -53,7 +53,7 @@
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
-  margin-top: 50px;
+  /* margin-top: 50px; */
 }
 
 .button-89:hover,
