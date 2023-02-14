@@ -8,8 +8,25 @@ new MutationObserver(() => {
   }
 }).observe(document, {subtree: true, childList: true});
 
+let startTime = new Date();
+
 function onUrlChange() {
   console.log('URL changed!', location.href);
+  chrome.storage.local.get(["recordStatus","savedUrls"], (res) => {
+    if (res.recordStatus === true) {
+        console.log("status "+res.recordStatus);
+        let urls = res.savedUrls ?? [];
+        console.log('test true status');
+        urls.push({
+            baseUrl: location.host,
+            fullUrl: location.href,
+            timePerTask: secondsSinceEnter(startTime)
+        });
+        chrome.storage.local.set({
+            "savedUrls": urls
+        });
+    }
+  });
   contnet_script();
 }
 /* END - FOR AJAX RELOAD */
@@ -18,7 +35,7 @@ function onUrlChange() {
 /* NORMAL PAGE RELOAD */
 if(document.readyState !== 'complete') {
     window.addEventListener('load',contnet_script);
-    document.addEventListener("DOMContentLoaded", contnet_script);
+    // document.addEventListener("DOMContentLoaded", contnet_script);
 } else {
     // contnet_script();
 }
@@ -46,7 +63,6 @@ chrome.storage.local.get(["lastUsedTimer","taskUrls","savedUrls","Errors","taskS
 }); */
 
 // Task time
-let startTime = new Date();
 /* window.addEventListener('load', () =>{
     chrome.storage.local.get(["timePerTask","savedUrls"], (res) =>{
         console.log(res.timePerTask ?? 0);
@@ -129,6 +145,7 @@ function contnet_script() {
                         for (let i=0; i<taskUrls.length; i++) {
                             if (taskUrls[i] === location.href) {
                                 taskUrls.splice(i, 1);
+                                break;
                             }
                         }
                         chrome.storage.local.set({
@@ -331,7 +348,7 @@ function contnet_script() {
       let navbarOpenButton = document.createElement('div');
       navbarOpenButton.classList.add('testo-openNavButton');
       // navbarOpenButton.innerHTML = `<img src="test_icon_no_bg.png"></img>`
-      navbarOpenButton.innerHTML += `<img src="${chrome.runtime.getURL('testo_icon_no_bg.png')}" style="height: 28px; width: 28px; margin-top: 20%;"/>`;
+      navbarOpenButton.innerHTML += `<img src="${chrome.runtime.getURL('testo_icon_no_bg.png')}" style="height: 28px; width: 28px; margin-top: 20%; margin-right: auto; margin-left: auto;"/>`;
       navbarOpenButton.setAttribute('onclick','showFetchedData()');
       navbarOpenButton.addEventListener('click', () => {
         document.getElementById("testo-mySidenav").style.width = "330px";

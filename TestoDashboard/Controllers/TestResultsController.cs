@@ -26,12 +26,6 @@ namespace TestoAPI.Controllers
             return new string[] { "value1", "value2" };
         }
 
-        // GET api/<TestResultsController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
 
         // POST api/<TestResultsController>
         [HttpPost("Send")]
@@ -54,16 +48,5 @@ namespace TestoAPI.Controllers
             return Ok();
         }
 
-        // PUT api/<TestResultsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<TestResultsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }

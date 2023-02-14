@@ -37,7 +37,7 @@ async function showFetchedData() {
     const caseStudy = await fetchCaseStudy();
     const tasks = await fetchTasks();
 
-    let theDiv = document.getElementById('showFetchedData');
+    let showTasksInPopup = document.getElementById('showFetchedData');
     
     let dataStyle = document.createElement('style');
     dataStyle.innerHTML += `/* checkbox */
@@ -46,18 +46,18 @@ async function showFetchedData() {
                                 width:30px;
                                 accent-color:#17A2B8;
                             }`
-    theDiv.prepend(dataStyle)
+    showTasksInPopup.prepend(dataStyle);
     console.log(caseStudy.startingPoint);
     // show data
-    theDiv.innerHTML = `<h3>Test cases for: <strong>${caseStudy.caseName}</strong></h3>
+    showTasksInPopup.innerHTML = `<h3>Test cases for: <strong>${caseStudy.caseName}</strong></h3>
                         <div>${caseStudy.guideLines}</div>
                         <p>Starting point from this <a target="_blank" style="display: inline;" href="${caseStudy.startingPoint}">link</a>
                         </p>`;
 
-    theDiv.innerHTML += `<ul style="text-align: left;">`
+    showTasksInPopup.innerHTML += `<ul style="text-align: left;">`
     for (let i=0; i<tasks.length; i++) {
-        theDiv.innerHTML += `<li>${tasks[i]}</li>`
+        showTasksInPopup.innerHTML += `<li>${tasks[i]}</li>`
     }
-    theDiv.innerHTML += `</ul>`
+    showTasksInPopup.innerHTML += `</ul>`
   }
 /* END -- FOR SHOWING TASKS IN NAVBAR */

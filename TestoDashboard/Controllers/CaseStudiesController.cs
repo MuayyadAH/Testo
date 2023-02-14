@@ -24,17 +24,6 @@ namespace TestoDashboard.Controllers
         public CaseStudies Get()
         {
             return _caseStudiesRepository.GetByCaseId(6);
-            /*IEnumerable<CaseStudies> allCases =  _caseStudiesRepository.GetAllCaseStudies();
-            return allCases;
-             IEnumerable<int> result = from value in Enumerable.Range(0, 5)
-                                      select value;
-            /* return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray(); */
         }
 
         [HttpPost]
